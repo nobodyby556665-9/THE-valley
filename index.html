@@ -68,16 +68,27 @@
             border: 1px dashed #00ffcc;
             padding: 20px;
             margin-top: 25px;
+            margin-bottom: 25px;
         }
         .puzzle-pista {
             color: #00ffcc;
             font-weight: bold;
         }
+        .btn-atras {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            margin-top: 20px;
+        }
+        .btn-atras:hover {
+            background: #ff007f;
+            color: #000;
+            box-shadow: 0 0 10px #ff007f;
+        }
     </style>
 </head>
 <body>
 
-<!-- Usamos un audio MP3 de estática de fondo en bucle -->
 <audio id="ruidoBlanco" loop preload="auto">
     <source src="https://soundjay.com" type="audio/mp3">
     Tu navegador no soporta audio.
@@ -102,25 +113,21 @@ function procesarCodigo() {
     var pantalla = document.getElementById("pantallaResultado");
     var audio = document.getElementById("ruidoBlanco");
     
-    // TRUCO: Intentar "despertar" el motor de audio del navegador con el clic del botón
     audio.play().then(() => {
-        // Si el código no es lostsoul, lo pausamos de inmediato
         if (codigo !== "lostsoul") {
             audio.pause();
             audio.currentTime = 0;
         }
-    }).catch(e => console.log("Audio esperando interacción profunda"));
+    }).catch(e => console.log("Audio esperando interacción"));
 
     pantalla.innerHTML = "";
 
     if (codigo === "lostsoul") {
-        // Cambiar la interfaz al modo terror
         document.body.style.backgroundColor = "#050505";
         document.getElementById("tituloPestaña").textContent = "ARCHIVO DESENTERRADO: LOST_SOUL";
         document.getElementById("subtituloPestaña").textContent = "Escucha atentamente entre la estática...";
         document.getElementById("interaccionBase").style.display = "none";
 
-        // Forzar reproducción del ruido blanco
         audio.muted = false;
         audio.play();
 
@@ -130,7 +137,7 @@ function procesarCodigo() {
                 ¿Sdud txé sursóvlwr qdfí?<br>
                 Suredeohphqwh kxer xqr dojxqd yhc, b suredeohphqwh wxyh xqd yrfdflóq hohydgd, srutxh vlhqwr xqd ixhucd lolplwdgd hq pl dopd, shur qr dglylqé hvwd yrfdflóq.<br>
                 Ph ghmé oohydu sru odv whqwdflrqhv gh od sdvlóq, ydfídv b vlq uhfrpshqvd.<br>
-                Pl mxyhqwxg vrpeuíd wudqvfxuuló hq frqiolfwr frqpljr plvpr b frq wrgrv dtxhoorv txh ph urghdedq, b, whplhqgr ho ulgífxor, hqwhuué plv phmruhv vhqwlplhqwrv hq or páv surixqgr gh pl frudcóq, b dooí pxulhurq."
+                Pl mxyhqwxg vrpeuíd wudqvfxuuló hq frqiolfwr frqpljr miovpr b frq wrgrv dtxhoorv txh ph urghdedq, b, whplhqgr ho ulgífxor, hqwhuué plv phmruhv vhqwlplhqwrv hq or páv surixqgr gh pl frudcóq, b dooí pxulhurq."
             </div>
 
             <div class="puzzle-box">
@@ -141,20 +148,26 @@ function procesarCodigo() {
                 <button onclick="verificarPuzzle()">ENVIAR RESPUESTA</button>
                 <div id="resultadoPuzzle" style="margin-top: 15px; font-weight: bold;"></div>
             </div>
+
+            <!-- BOTÓN PARA REGRESAR AL INICIO -->
+            <button onclick="regresarInicio()" class="btn-atras">⎌ REGRESAR AL MENU</button>
         `;
     
     } else if (codigo === "pinkvalley") {
-        // CORRECCIÓN: Ahora muestra las pistas aquí dentro sin redirigir a Google
         pantalla.innerHTML = `
             <p style="color: #00ffcc;">[CONEXIÓN ESTABLECIDA CON THE PINK VALLEY]</p>
             <p>Buscando registros sobre el libro... Archivos encontrados con éxito.</p>
             <p style="color: #ffffff; background: #220522; padding: 10px; border: 1px solid #ff007f;">
                 Pista: El alma en pena requiere que resuelvas su enigma. Intenta buscar el código "lostsoul".
             </p>
+            <button onclick="regresarInicio()" class="btn-atras">⎌ REGRESAR</button>
         `;
     
     } else if (codigo === "98472") {
-        pantalla.innerHTML = "<p style='color: #00ffcc;'>[ACCESO CONCEDIDO]<br>Pista preliminar: Próximo código de acceso cifrado -> 'pinkvalley'</p>";
+        pantalla.innerHTML = `
+            <p style='color: #00ffcc;'>[ACCESO CONCEDIDO]<br>Pista preliminar: Próximo código de acceso cifrado -> 'pinkvalley'</p>
+            <button onclick="regresarInicio()" class="btn-atras">⎌ REGRESAR</button>
+        `;
     
     } else if (codigo === "") {
         pantalla.innerHTML = "<p style='color: #ffff00;'>Por favor, ingresa un código en la terminal.</p>";
@@ -176,7 +189,29 @@ function verificarPuzzle() {
         resultado.textContent = "RESPUESTA INCORRECTA. Inténtalo de nuevo.";
     }
 }
+
+// NUEVA FUNCIÓN: Restablece todo el diseño original de la página
+function regresarInicio() {
+    var audio = document.getElementById("ruidoBlanco");
+    
+    // Apagar y reiniciar el audio
+    audio.pause();
+    audio.currentTime = 0;
+
+    // Restaurar colores y textos del menú principal
+    document.body.style.backgroundColor = "#0b020b";
+    document.getElementById("tituloPestaña").textContent = "SISTEMA DE VERIFICACIÓN";
+    document.getElementById("subtituloPestaña").textContent = "Ingresa un código de acceso para desbloquear los archivos:";
+    
+    // Volver a mostrar la barra de entrada de códigos
+    document.getElementById("interaccionBase").style.display = "block";
+    document.getElementById("codigoInput").value = ""; // Limpia lo que el usuario escribió
+    
+    // Limpiar la pantalla de resultados
+    document.getElementById("pantallaResultado").innerHTML = "";
+}
 </script>
 
 </body>
 </html>
+
