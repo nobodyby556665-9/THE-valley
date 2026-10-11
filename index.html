@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KAMIKAZER - Sistema de Códigos</title>
     <style>
-        /* Estilos estilo Terminal Cyberpunk / Hacker */
+        /* Estilos estilo Terminal Hacker */
         body {
             background-color: #050505;
             color: #00ff41;
@@ -103,49 +103,34 @@
         <p style="font-size: 0.9rem; color: #888;">Ingresa un código de acceso para desbloquear los archivos:</p>
 
         <!-- Formulario de entrada -->
-        <input type="text" id="codigo-input" class="input-code" placeholder="EJ: KEY-9999" autocomplete="off">
+        <input type="text" id="codigo-input" class="input-code" placeholder="INGRESAR CÓDIGO" autocomplete="off">
         <br>
         <button id="btn-decodificar" class="btn-decode">DECODIFICAR</button>
     </div>
 
-    <!-- ELEMENTOS DE AUDIO (Ocultos) -->
-    <!-- Reemplaza "audio/click.mp3" y "audio/success.mp3" por las rutas reales de tus archivos en tu repositorio -->
-    <audio id="sound-click" src="audio/click.mp3" preload="auto"></audio>
-    <audio id="sound-success" src="audio/success.mp3" preload="auto"></audio>
+    <!-- ETIQUETA DE AUDIO CON TU MÚSICA -->
+    <!-- Nota: He puesto 'menu.mp3' asumiendo que renombraste tu archivo para evitar errores de ruta -->
+    <audio id="musica-menu" src="menu.mp3" preload="auto" loop></audio>
 
     <script>
-        // Selección de elementos del DOM
         const botonDecodificar = document.getElementById('btn-decodificar');
-        const inputCodigo = document.getElementById('codigo-input');
-        
-        const soundClick = document.getElementById('sound-click');
-        const soundSuccess = document.getElementById('sound-success');
+        const miMusica = document.getElementById('musica-menu');
+        let reproduciendo = false;
 
-        // 1. Efecto de sonido al escribir en el teclado (Opcional, estilo máquina de escribir)
-        inputCodigo.addEventListener('keypress', () => {
-            soundClick.currentTime = 0;
-            soundClick.play().catch(err => console.log("Audio esperando interacción inicial"));
-        });
-
-        // 2. Acción y sonido principal al hacer clic en DECODIFICAR
+        // Al hacer clic en DECODIFICAR se activará tu canción de fondo (y se mantendrá en bucle)
         botonDecodificar.addEventListener('click', () => {
-            const codigo = inputCodigo.value.trim();
-
-            if (codigo === "") {
-                // Si está vacío, solo suena el clic básico
-                soundClick.currentTime = 0;
-                soundClick.play();
-                alert("Por favor, ingresa un código.");
-            } else {
-                // Si el usuario escribió algo, reproduce el sonido de éxito/decodificación
-                soundSuccess.currentTime = 0;
-                soundSuccess.play().catch(error => {
-                    console.error("Error al reproducir el audio:", error);
-                });
-
-                // Aquí puedes agregar tu lógica para validar códigos en el futuro
-                console.log("Código enviado para decodificación: " + codigo);
+            if (!reproduciendo) {
+                miMusica.play()
+                    .then(() => {
+                        reproduciendo = true;
+                        console.log("Reproduciendo la OST de tu menú con éxito.");
+                    })
+                    .catch(error => {
+                        console.error("El navegador bloqueó el audio inicial de la página:", error);
+                    });
             }
+            
+            // Aquí puedes colocar el resto de la lógica de tus códigos
         });
     </script>
 
