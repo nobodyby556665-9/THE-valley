@@ -89,6 +89,13 @@
 </head>
 <body>
 
+<!-- AUDIO 1: Música ambiental de terror (Suena al inicio) -->
+<audio id="musicaTerror" loop preload="auto">
+    <source src="https://soundjay.com" type="audio/mp3">
+    Tu navegador no soporta audio.
+</audio>
+
+<!-- AUDIO 2: Estática (Solo para lostsoul) -->
 <audio id="ruidoBlanco" loop preload="auto">
     <source src="https://soundjay.com" type="audio/mp3">
     Tu navegador no soporta audio.
@@ -108,28 +115,42 @@
 </div>
 
 <script>
+// Bandera para saber si la música inicial ya despertó
+var musicaIniciada = false;
+
+function iniciarMusicaBase() {
+    var musica = document.getElementById("musicaTerror");
+    if (!musicaIniciada) {
+        musica.play().then(() => {
+            musicaIniciada = true;
+        }).catch(e => console.log("Esperando interacción profunda para la música"));
+    }
+}
+
 function procesarCodigo() {
+    // Despertar la música base en el primer clic si el navegador la tenía bloqueada
+    iniciarMusicaBase();
+
     var codigo = document.getElementById("codigoInput").value.trim().toLowerCase();
     var pantalla = document.getElementById("pantallaResultado");
-    var audio = document.getElementById("ruidoBlanco");
+    var musica = document.getElementById("musicaTerror");
+    var estatica = document.getElementById("ruidoBlanco");
     
-    audio.play().then(() => {
-        if (codigo !== "lostsoul") {
-            audio.pause();
-            audio.currentTime = 0;
-        }
-    }).catch(e => console.log("Audio esperando interacción"));
-
     pantalla.innerHTML = "";
 
     if (codigo === "lostsoul") {
+        // Apagar la música de terror ambiental para dejar solo la estática
+        musica.pause();
+
+        // Cambiar la interfaz al modo terror extremo
         document.body.style.backgroundColor = "#050505";
         document.getElementById("tituloPestaña").textContent = "ARCHIVO DESENTERRADO: LOST_SOUL";
         document.getElementById("subtituloPestaña").textContent = "Escucha atentamente entre la estática...";
         document.getElementById("interaccionBase").style.display = "none";
 
-        audio.muted = false;
-        audio.play();
+        // Reproducir la estática profunda
+        estatica.currentTime = 0;
+        estatica.play().catch(e => console.log(e));
 
         pantalla.innerHTML = `
             <div class="lostsoul-text">
@@ -149,7 +170,6 @@ function procesarCodigo() {
                 <div id="resultadoPuzzle" style="margin-top: 15px; font-weight: bold;"></div>
             </div>
 
-            <!-- BOTÓN PARA REGRESAR AL INICIO -->
             <button onclick="regresarInicio()" class="btn-atras">⎌ REGRESAR AL MENU</button>
         `;
     
@@ -190,28 +210,27 @@ function verificarPuzzle() {
     }
 }
 
-// NUEVA FUNCIÓN: Restablece todo el diseño original de la página
 function regresarInicio() {
-    var audio = document.getElementById("ruidoBlanco");
+    var musica = document.getElementById("musicaTerror");
+    var estatica = document.getElementById("ruidoBlanco");
     
-    // Apagar y reiniciar el audio
-    audio.pause();
-    audio.currentTime = 0;
+    // Apagar la estática
+    estatica.pause();
+    estatica.currentTime = 0;
 
-    // Restaurar colores y textos del menú principal
+    // Volver a encender la música de terror de fondo
+    musica.play().catch(e => console.log(e));
+
+    // Restaurar el menú de inicio
     document.body.style.backgroundColor = "#0b020b";
     document.getElementById("tituloPestaña").textContent = "SISTEMA DE VERIFICACIÓN";
     document.getElementById("subtituloPestaña").textContent = "Ingresa un código de acceso para desbloquear los archivos:";
     
-    // Volver a mostrar la barra de entrada de códigos
     document.getElementById("interaccionBase").style.display = "block";
-    document.getElementById("codigoInput").value = ""; // Limpia lo que el usuario escribió
-    
-    // Limpiar la pantalla de resultados
+    document.getElementById("codigoInput").value = ""; 
     document.getElementById("pantallaResultado").innerHTML = "";
 }
 </script>
 
 </body>
 </html>
-
