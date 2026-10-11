@@ -2,248 +2,152 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>KAMIKAZER - SISTEMA DE CODIGOS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAMIKAZER - Sistema de Códigos</title>
     <style>
+        /* Estilos estilo Terminal Cyberpunk / Hacker */
         body {
-            background-color: #0b020b;
-            color: #ff007f;
+            background-color: #050505;
+            color: #00ff41;
             font-family: 'Courier New', Courier, monospace;
-            padding: 40px;
-            text-align: center;
-            transition: all 1s ease;
-        }
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            border: 2px solid #ff007f;
-            padding: 30px;
-            background-color: #120312;
-            box-shadow: 0 0 15px #ff007f;
-        }
-        input {
-            background: #000;
-            border: 1px solid #ff007f;
-            color: #00ffcc;
-            padding: 12px;
-            font-family: monospace;
-            font-size: 18px;
-            outline: none;
-            width: 80%;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        button {
-            background: #ff007f;
-            color: #000;
-            border: none;
-            padding: 12px 30px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: monospace;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        button:hover {
-            background: #00ffcc;
-            box-shadow: 0 0 10px #00ffcc;
-        }
-        .resultado {
-            margin-top: 30px;
-            padding: 15px;
-            min-height: 50px;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-        .lostsoul-text {
-            color: #d1c7bd;
-            text-align: justify;
-            font-style: italic;
-            background: #1c141c;
-            padding: 20px;
-            border-left: 4px solid #ff007f;
-            margin-bottom: 30px;
-        }
-        .puzzle-box {
-            background: #000;
-            border: 1px dashed #00ffcc;
-            padding: 20px;
-            margin-top: 25px;
-            margin-bottom: 25px;
-        }
-        .puzzle-pista {
-            color: #00ffcc;
-            font-weight: bold;
-        }
-        .btn-atras {
-            background: #333;
-            color: #fff;
-            border: 1px solid #555;
-            margin-top: 20px;
-        }
-        .btn-atras:hover {
-            background: #ff007f;
-            color: #000;
-            box-shadow: 0 0 10px #ff007f;
-        }
-        /* Pantalla de inicio para forzar el clic de audio */
-        #pantallaBloqueo {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #050005;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .btn-arranque {
-            background: transparent;
-            color: #ff007f;
-            border: 2px solid #ff007f;
-            padding: 20px 40px;
-            font-size: 20px;
-            animation: parpadeo 1.5s infinite;
+
+        .terminal-container {
+            background-color: #000;
+            border: 2px solid #00ff41;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            border-radius: 5px;
         }
-        @keyframes parpadeo {
-            0%, 100% { opacity: 1; box-shadow: 0 0 10px #ff007f; }
-            50% { opacity: 0.4; box-shadow: 0 0 0px transparent; }
+
+        .header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: #008f11;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .input-code {
+            background-color: #050505;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            text-align: center;
+            width: 80%;
+            margin-bottom: 20px;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        .input-code:focus {
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+
+        .btn-decode {
+            background-color: #00ff41;
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-decode:hover {
+            background-color: #000;
+            color: #00ff41;
+            border: 1px solid #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
         }
     </style>
 </head>
 <body>
 
-<!-- Pantalla obligatoria de clic para despertar los audios -->
-<div id="pantallaBloqueo">
-    <button class="btn-arranque" onclick="despertarTerminal()">[ INICIALIZAR TERMINAL ]</button>
-</div>
+    <div class="terminal-container">
+        <div class="header">KAMIKAZER</div>
+        <div class="subtitle">[ SISTEMA DE CODIGOS ]</div>
 
-<!-- AUDIO 1: Tu audio misterioso de Pink Smile para el menú -->
-<audio id="musicaTerror" loop preload="auto">
-    <source src="https://githubusercontent.com" type="audio/mp3">
-    Tu navegador no soporta audio.
-</audio>
+        <hr style="border-color: #008f11; margin-bottom: 25px;">
 
-<!-- AUDIO 2: Estática profunda para el código lostsoul -->
-<audio id="ruidoBlanco" loop preload="auto">
-    <source src="https://soundjay.com" type="audio/mp3">
-    Tu navegador no soporta audio.
-</audio>
+        <div class="section-title"># SISTEMA DE VERIFICACIÓN</div>
+        <p style="font-size: 0.9rem; color: #888;">Ingresa un código de acceso para desbloquear los archivos:</p>
 
-<div class="container" id="cajaPrincipal">
-    <h1 id="tituloPestaña">SISTEMA DE VERIFICACIÓN</h1>
-    <p id="subtituloPestaña">Ingresa un código de acceso para desbloquear los archivos:</p>
-    
-    <div id="interaccionBase">
-        <input type="text" id="codigoInput" placeholder="SISTEMA_LISTO_">
+        <!-- Formulario de entrada -->
+        <input type="text" id="codigo-input" class="input-code" placeholder="EJ: KEY-9999" autocomplete="off">
         <br>
-        <button onclick="procesarCodigo()">DECODIFICAR</button>
+        <button id="btn-decodificar" class="btn-decode">DECODIFICAR</button>
     </div>
-    
-    <div id="pantallaResultado" class="resultado"></div>
-</div>
 
-<script>
-function despertarTerminal() {
-    document.getElementById("pantallaBloqueo").style.display = "none";
-    var musica = document.getElementById("musicaTerror");
-    
-    musica.play().catch(e => console.log("Fallo al reproducir audio base:", e));
-}
+    <!-- ELEMENTOS DE AUDIO (Ocultos) -->
+    <!-- Reemplaza "audio/click.mp3" y "audio/success.mp3" por las rutas reales de tus archivos en tu repositorio -->
+    <audio id="sound-click" src="audio/click.mp3" preload="auto"></audio>
+    <audio id="sound-success" src="audio/success.mp3" preload="auto"></audio>
 
-function procesarCodigo() {
-    var codigo = document.getElementById("codigoInput").value.trim().toLowerCase();
-    var pantalla = document.getElementById("pantallaResultado");
-    var musica = document.getElementById("musicaTerror");
-    var estatica = document.getElementById("ruidoBlanco");
-    
-    pantalla.innerHTML = "";
+    <script>
+        // Selección de elementos del DOM
+        const botonDecodificar = document.getElementById('btn-decodificar');
+        const inputCodigo = document.getElementById('codigo-input');
+        
+        const soundClick = document.getElementById('sound-click');
+        const soundSuccess = document.getElementById('sound-success');
 
-    if (codigo === "lostsoul") {
-        musica.pause();
+        // 1. Efecto de sonido al escribir en el teclado (Opcional, estilo máquina de escribir)
+        inputCodigo.addEventListener('keypress', () => {
+            soundClick.currentTime = 0;
+            soundClick.play().catch(err => console.log("Audio esperando interacción inicial"));
+        });
 
-        document.body.style.backgroundColor = "#050505";
-        document.getElementById("tituloPestaña").textContent = "ARCHIVO DESENTERRADO: LOST_SOUL";
-        document.getElementById("subtituloPestaña").textContent = "Escucha atentamente entre la estática...";
-        document.getElementById("interaccionBase").style.display = "none";
+        // 2. Acción y sonido principal al hacer clic en DECODIFICAR
+        botonDecodificar.addEventListener('click', () => {
+            const codigo = inputCodigo.value.trim();
 
-        estatica.currentTime = 0;
-        estatica.play().catch(e => console.log("Error estática:", e));
+            if (codigo === "") {
+                // Si está vacío, solo suena el clic básico
+                soundClick.currentTime = 0;
+                soundClick.play();
+                alert("Por favor, ingresa un código.");
+            } else {
+                // Si el usuario escribió algo, reproduce el sonido de éxito/decodificación
+                soundSuccess.currentTime = 0;
+                soundSuccess.play().catch(error => {
+                    console.error("Error al reproducir el audio:", error);
+                });
 
-        pantalla.innerHTML = `
-            <div class="lostsoul-text">
-                "Uhfruur od phpruld gh pl sdvdgr hq vx wrwdolgdg, b qr sxhgr hylwdu suhjxqwduph: ¿sru txé kh ylylgr?<br>
-                ¿Sdud txé sursóvlwr qdfí?<br>
-                Suredeohphqwh kxer xqr dojxqd yhc, b suredeohphqwh wxyh xqd yrfdflóq hohydgd, srutxh vlhqwr xqd ixhucd lolplwdgd hq pl dopd, shur qr dglylqé hvwd yrfdflóq.<br>
-                Ph ghmé oohydu sru odv whqwdflrqhv gh od sdvlóq, ydfídv b vlq uhfrpshqvd.<br>
-                Pl mxyhqwxg vrpeuíd wudqvfxuuló hq frqiolfwr frqpljr miovpr b frq wrgrv dtxhoorv txh ph urghdedq, b, whplhqgr ho ulgífxor, hqwhuué plv phmruhv vhqwlplhqwrv hq or páv surixqgr gh pl frudcóq, b dooí pxulhurq."
-            </div>
-
-            <div class="puzzle-box">
-                <h3>[ACERTIJO DEL ALMA PERDIDA]</h3>
-                <p>Para obtener las letras ocultas, resuelve la siguiente pregunta:</p>
-                <p class="puzzle-pista">"Tengo llaves pero no abro cerraduras, tengo espacio pero no tengo habitaciones, puedes entrar pero no puedes salir. ¿Qué soy?"</p>
-                <input type="text" id="respuestaPuzzle" placeholder="Tu respuesta..." style="width: 60%; font-size: 16px;"><br>
-                <button onclick="verificarPuzzle()">ENVIAR RESPUESTA</button>
-                <div id="resultadoPuzzle" style="margin-top: 15px; font-weight: bold;"></div>
-            </div>
-
-            <button onclick="regresarInicio()" class="btn-atras">⎌ REGRESAR AL MENU</button>
-        `;
-    
-    } else if (codigo === "pinkvalley") {
-        pantalla.innerHTML = `
-            <p style="color: #00ffcc;">[CONEXIÓN ESTABLECIDA CON THE PINK VALLEY]</p>
-            <p>Buscando registros sobre el libro... Archivos encontrados con éxito.</p>
-            <p style="color: #ffffff; background: #220522; padding: 10px; border: 1px solid #ff007f;">
-                Pista: El alma en pena requiere que resuelvas su enigma. Intenta buscar el código "lostsoul".
-            </p>
-            <button onclick="regresarInicio()" class="btn-atras">⎌ REGRESAR</button>
-        `;
-    
-    } else if (codigo === "98472") {
-        pantalla.innerHTML = `
-            <p style='color: #00ffcc;'>[ACCESO CONCEDIDO]<br>Pista preliminar: Próximo código de acceso cifrado -> 'pinkvalley'</p>
-            <button onclick="regresarInicio()" class="btn-atras">⎌ REGRESAR</button>
-        `;
-    
-    } else if (codigo === "") {
-        pantalla.innerHTML = "<p style='color: #ffff00;'>Por favor, ingresa un código en la terminal.</p>";
-    
-    } else {
-        pantalla.innerHTML = "<p style='color: #ff0000;'>[ERROR] CÓDIGO INVÁLIDO. Acceso denegado.</p>";
-    }
-}
-
-function verificarPuzzle() {
-    var respuesta = document.getElementById("respuestaPuzzle").value.trim().toLowerCase();
-    var resultado = document.getElementById("resultadoPuzzle");
-
-    if (respuesta === "teclado" || respuesta === "el teclado") {
-        resultado.style.color = "#00ffcc";
-        resultado.innerHTML = "¡CORRECTO!<br>Las letras obtenidas son: <span style='font-size: 24px; color: #fff; background: #ff007f; padding: 2px 8px;'>K - A - M</span>.";
-    } else {
-        resultado.style.color = "#ff0000";
-        resultado.textContent = "RESPUESTA INCORRECTA. Inténtalo de nuevo.";
-    }
-}
-
-function regresarInicio() {
-    var musica = document.getElementById("musicaTerror");
-    var estatica = document.getElementById("ruidoBlanco");
-    
-    estatica.pause();
-    estatica.currentTime = 0;
-
-    musica.play().catch(e => console.log(e));
-
-    document.body.style.backgroundColor = "#0b020b";
-    document.getElementById("tituloPestaña").textContent = "SISTEMA DE VERIFICACIÓN";
-    document.getElementById("subtituloPestaña").textContent = "Ingresa un código de acceso para desbloquear los archivos:";
-    
-    document.getElementById("interaccionBase").style.display = "block";
-    document.getElementById("codigoInput").value = ""; 
-    document.getElementById("pantallaResultado").innerHTML = "";
-}
-</script>
+                // Aquí puedes agregar tu lógica para validar códigos en el futuro
+                console.log("Código enviado para decodificación: " + codigo);
+            }
+        });
+    </script>
 
 </body>
 </html>
