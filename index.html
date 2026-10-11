@@ -10,7 +10,7 @@
             font-family: 'Courier New', Courier, monospace;
             padding: 40px;
             text-align: center;
-            transition: all 1s ease; /* Transición suave para cuando cambie la página */
+            transition: all 1s ease;
         }
         .container {
             max-width: 700px;
@@ -54,7 +54,6 @@
             font-size: 18px;
             line-height: 1.6;
         }
-        /* Estilos especiales para la sección de Lost Soul */
         .lostsoul-text {
             color: #d1c7bd;
             text-align: justify;
@@ -78,15 +77,15 @@
 </head>
 <body>
 
-<!-- Elemento de audio oculto para el ruido blanco -->
-<audio id="ruidoBlanco" loop>
-    <source src="https://mixkit.co" type="audio/wav">
-    Tu navegador no soporta el elemento de audio.
+<!-- Usamos un audio MP3 de estática de fondo en bucle -->
+<audio id="ruidoBlanco" loop preload="auto">
+    <source src="https://soundjay.com" type="audio/mp3">
+    Tu navegador no soporta audio.
 </audio>
 
 <div class="container" id="cajaPrincipal">
     <h1 id="tituloPestaña">SISTEMA DE VERIFICACIÓN</h1>
-    <p id="subtituloPestaña">Ingresa un código de acceso para desbloquear los archivos de "The Pink Valley":</p>
+    <p id="subtituloPestaña">Ingresa un código de acceso para desbloquear los archivos:</p>
     
     <div id="interaccionBase">
         <input type="text" id="codigoInput" placeholder="SISTEMA_LISTO_">
@@ -94,9 +93,7 @@
         <button onclick="procesarCodigo()">DECODIFICAR</button>
     </div>
     
-    <div id="pantallaResultado" class="resultado">
-        <!-- Aquí aparecerán las pistas o el puzzle -->
-    </div>
+    <div id="pantallaResultado" class="resultado"></div>
 </div>
 
 <script>
@@ -105,23 +102,28 @@ function procesarCodigo() {
     var pantalla = document.getElementById("pantallaResultado");
     var audio = document.getElementById("ruidoBlanco");
     
+    // TRUCO: Intentar "despertar" el motor de audio del navegador con el clic del botón
+    audio.play().then(() => {
+        // Si el código no es lostsoul, lo pausamos de inmediato
+        if (codigo !== "lostsoul") {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    }).catch(e => console.log("Audio esperando interacción profunda"));
+
     pantalla.innerHTML = "";
 
     if (codigo === "lostsoul") {
-        // 1. Activar el audio de ruido blanco en bucle
-        audio.play().catch(function(error) {
-            console.log("El navegador bloqueó el auto-play. Se requiere interacción del usuario.");
-        });
-
-        // 2. Cambiar la atmósfera de la página
+        // Cambiar la interfaz al modo terror
         document.body.style.backgroundColor = "#050505";
         document.getElementById("tituloPestaña").textContent = "ARCHIVO DESENTERRADO: LOST_SOUL";
         document.getElementById("subtituloPestaña").textContent = "Escucha atentamente entre la estática...";
-        
-        // Ocultar la barra de búsqueda original para que se concentren en el texto
         document.getElementById("interaccionBase").style.display = "none";
 
-        // 3. Insertar el texto cifrado y el Puzzle
+        // Forzar reproducción del ruido blanco
+        audio.muted = false;
+        audio.play();
+
         pantalla.innerHTML = `
             <div class="lostsoul-text">
                 "Uhfruur od phpruld gh pl sdvdgr hq vx wrwdolgdg, b qr sxhgr hylwdu suhjxqwduph: ¿sru txé kh ylylgr?<br>
@@ -133,7 +135,7 @@ function procesarCodigo() {
 
             <div class="puzzle-box">
                 <h3>[ACERTIJO DEL ALMA PERDIDA]</h3>
-                <p>Para obtener las letras ocultas del mapa, resuelve la siguiente pregunta:</p>
+                <p>Para obtener las letras ocultas, resuelve la siguiente pregunta:</p>
                 <p class="puzzle-pista">"Tengo llaves pero no abro cerraduras, tengo espacio pero no tengo habitaciones, puedes entrar pero no puedes salir. ¿Qué soy?"</p>
                 <input type="text" id="respuestaPuzzle" placeholder="Tu respuesta..." style="width: 60%; font-size: 16px;"><br>
                 <button onclick="verificarPuzzle()">ENVIAR RESPUESTA</button>
@@ -141,11 +143,18 @@ function procesarCodigo() {
             </div>
         `;
     
-    } else if (codigo === "98472") {
-        pantalla.innerHTML = "<p style='color: #00ffcc;'>[ACCESO CONCEDIDO]<br>Pista: Busca el archivo oculto en el servidor. El siguiente código empieza con 'lost'.</p>";
-    
     } else if (codigo === "pinkvalley") {
-        pantalla.innerHTML = "<p>Código correcto. Archivo redirigido:<br><br><a href='https://google.com' target='_blank'>Ir a KAMIKAZER SITE ➔</a></p>";
+        // CORRECCIÓN: Ahora muestra las pistas aquí dentro sin redirigir a Google
+        pantalla.innerHTML = `
+            <p style="color: #00ffcc;">[CONEXIÓN ESTABLECIDA CON THE PINK VALLEY]</p>
+            <p>Buscando registros sobre el libro... Archivos encontrados con éxito.</p>
+            <p style="color: #ffffff; background: #220522; padding: 10px; border: 1px solid #ff007f;">
+                Pista: El alma en pena requiere que resuelvas su enigma. Intenta buscar el código "lostsoul".
+            </p>
+        `;
+    
+    } else if (codigo === "98472") {
+        pantalla.innerHTML = "<p style='color: #00ffcc;'>[ACCESO CONCEDIDO]<br>Pista preliminar: Próximo código de acceso cifrado -> 'pinkvalley'</p>";
     
     } else if (codigo === "") {
         pantalla.innerHTML = "<p style='color: #ffff00;'>Por favor, ingresa un código en la terminal.</p>";
@@ -159,13 +168,12 @@ function verificarPuzzle() {
     var respuesta = document.getElementById("respuestaPuzzle").value.trim().toLowerCase();
     var resultado = document.getElementById("resultadoPuzzle");
 
-    // La respuesta al acertijo es "teclado" o "el teclado"
     if (respuesta === "teclado" || respuesta === "el teclado") {
         resultado.style.color = "#00ffcc";
-        resultado.innerHTML = "¡CORRECTO!<br>Las letras obtenidas son: <span style='font-size: 24px; color: #fff; background: #ff007f; padding: 2px 8px;'>K - A - M</span>.<br>Úsalas sabiamente.";
+        resultado.innerHTML = "¡CORRECTO!<br>Las letras obtenidas son: <span style='font-size: 24px; color: #fff; background: #ff007f; padding: 2px 8px;'>K - A - M</span>.";
     } else {
         resultado.style.color = "#ff0000";
-        resultado.textContent = "RESPUESTA INCORRECTA. La estática se vuelve más fuerte...";
+        resultado.textContent = "RESPUESTA INCORRECTA. Inténtalo de nuevo.";
     }
 }
 </script>
