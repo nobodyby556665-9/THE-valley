@@ -3,136 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KAMIKAZER - Sistema de Códigos</title>
+    <title>The Pink Valley - Doom II Total Conversion</title>
     <style>
-        /* Estilos estilo Terminal Hacker */
+        :root {
+            --bg-color: #0b0709;
+            --card-bg: #160e13;
+            --pink-neon: #ff007f;
+            --pink-dim: #9e004f;
+            --text-color: #e0d5da;
+            --text-muted: #a08f97;
+        }
+
         body {
-            background-color: #050505;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 0;
+            line-height: 1.6;
         }
 
-        .terminal-container {
-            background-color: #000;
-            border: 2px solid #00ff41;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-            padding: 30px;
-            width: 100%;
-            max-width: 500px;
+        header {
+            background: linear-gradient(180deg, rgba(22,14,19,1) 0%, rgba(11,7,9,1) 100%);
+            padding: 60px 20px;
             text-align: center;
-            border-radius: 5px;
+            border-bottom: 2px solid var(--pink-neon);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
         }
 
-        .header {
-            font-size: 1.2rem;
+        .warning-banner {
+            background-color: #2b0000;
+            border: 1px solid #ff0000;
+            color: #ff9999;
+            padding: 10px;
+            text-align: center;
             font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
+            font-size: 0.9rem;
             text-transform: uppercase;
-        }
-
-        .subtitle {
-            font-size: 0.8rem;
-            color: #008f11;
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            font-size: 1rem;
-            margin-bottom: 15px;
-            color: #ffffff;
             letter-spacing: 1px;
-        }
-
-        .input-code {
-            background-color: #050505;
-            border: 1px solid #00ff41;
-            color: #00ff41;
-            padding: 12px;
-            font-size: 1.1rem;
-            font-family: inherit;
-            text-align: center;
-            width: 80%;
             margin-bottom: 20px;
-            outline: none;
+        }
+
+        h1 {
+            color: var(--pink-neon);
+            font-size: 3rem;
+            margin: 0 0 10px 0;
             text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
         }
 
-        .input-code:focus {
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin: 0;
         }
 
-        .btn-decode {
-            background-color: #00ff41;
-            color: #000;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-family: inherit;
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--pink-neon);
+            padding: 30px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            color: var(--pink-neon);
+            margin-top: 0;
+            font-size: 1.8rem;
+            border-bottom: 1px solid rgba(255, 0, 127, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--pink-neon);
+            color: #fff;
+            padding: 12px 24px;
+            text-decoration: none;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4);
+            text-align: center;
         }
 
-        .btn-decode:hover {
-            background-color: #000;
-            color: #00ff41;
-            border: 1px solid #00ff41;
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+        .btn:hover {
+            background-color: #ff3399;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 127, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--pink-neon);
+            color: var(--pink-neon);
+            box-shadow: none;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--pink-neon);
+            color: #fff;
+        }
+
+        .features-list, .config-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li::before {
+            content: "👁️‍🗨️ ";
+            margin-right: 10px;
+        }
+
+        .config-list li {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .config-list strong {
+            color: var(--pink-neon);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 0, 127, 0.1);
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--pink-neon);
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="terminal-container">
-        <div class="header">KAMIKAZER</div>
-        <div class="subtitle">[ SISTEMA DE CODIGOS ]</div>
-
-        <hr style="border-color: #008f11; margin-bottom: 25px;">
-
-        <div class="section-title"># SISTEMA DE VERIFICACIÓN</div>
-        <p style="font-size: 0.9rem; color: #888;">Ingresa un código de acceso para desbloquear los archivos:</p>
-
-        <!-- Formulario de entrada -->
-        <input type="text" id="codigo-input" class="input-code" placeholder="INGRESAR CÓDIGO" autocomplete="off">
-        <br>
-        <button id="btn-decodificar" class="btn-decode">DECODIFICAR</button>
+    <div class="warning-banner">
+        ⚠️ ADVERTENCIA: Este juego contiene temas fuertes, violencia explícita y terror psicológico transgresor.
     </div>
 
-    <!-- ETIQUETA DE AUDIO CON TU MÚSICA -->
-    <!-- Nota: He puesto 'menu.mp3' asumiendo que renombraste tu archivo para evitar errores de ruta -->
-    <audio id="musica-menu" src="menu.mp3" preload="auto" loop></audio>
+    <header>
+        <h1>The Pink Valley</h1>
+        <p>Una conversión total experimental de acción y terror psicológico para GZDoom</p>
+    </header>
 
-    <script>
-        const botonDecodificar = document.getElementById('btn-decodificar');
-        const miMusica = document.getElementById('musica-menu');
-        let reproduciendo = false;
-
-        // Al hacer clic en DECODIFICAR se activará tu canción de fondo (y se mantendrá en bucle)
-        botonDecodificar.addEventListener('click', () => {
-            if (!reproduciendo) {
-                miMusica.play()
-                    .then(() => {
-                        reproduciendo = true;
-                        console.log("Reproduciendo la OST de tu menú con éxito.");
-                    })
-                    .catch(error => {
-                        console.error("El navegador bloqueó el audio inicial de la página:", error);
-                    });
-            }
+    <div class="container">
+        <div class="grid">
             
-            // Aquí puedes colocar el resto de la lógica de tus códigos
-        });
-    </script>
+            <!-- Columna Principal -->
+            <main>
+                <section id="about">
+                    <h2>Sobre el Proyecto</h2>
+                    <p><strong>The Pink Valley</strong> es un ambicioso archivo PK3 para Doom II desarrollado de manera individual por el creador chileno <strong>vamvilodon</strong> a lo largo de tres años de producción. En él, tomas el control de un joven perturbado en un caótico viaje de pesadilla donde la delgada línea entre la realidad y la ilusión se desvanece por completo.</p>
+                    <p>Lo que en apariencia inicia como una premisa simple y mundana, se deforma gradualmente en una narrativa abstracta y simbólica que explora traumas íntimos, culpa profunda y el pánico psicológico del protagonista.</p>
+                </section>
+
+                <section id="features">
+                    <h2>Características Clave</h2>
+                    <ul class="features-list">
+                        <li><strong>Contenido 100% Personalizado:</strong> Armas exclusivas, enemigos perturbadores y mecánicas de exploración pesada.</li>
+                        <li><strong>Banda Sonora Única:</strong> Una mezcla caótica de temas compuestos por el autor, remezclas e incorporaciones de bandas como Mr. Bungle y María Daniela y su Sonido Lasser.</li>
+                        <li><strong>Atmósfera Opresiva:</strong> Uso experimental de la niebla y gestión del motor de luces dinámicas para generar un ambiente asfixiante.</li>
+                    </ul>
+                </section>
+            </main>
+
+            <!-- Barra Lateral -->
+            <aside>
+                <section id="download" style="text-align: center;">
+                    <h2>Jugar Ahora</h2>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">Requiere Doom II como base (IWAD) y un motor compatible moderno.</p>
+                    <a href="https://www.moddb.com/mods/the-pink-valley/downloads/the-pink-valley-starter-11" class="btn" target="_blank" rel="noopener">Descargar v1.1 (ModDB)</a>
+                    <a href="https://thepinkvalley.miraheze.org/wiki/The_Pink_Valley_Wiki" class="btn btn-secondary" target="_blank" rel="noopener">Visitar Wiki Oficial</a>
+                </section>
+
+                <section id="specs">
+                    <h2>Ajustes Recomendados</h2>
+                    <ul class="config-list">
+                        <li><strong>Motor:</strong> GZDoom / LZDoom</li>
+                        <li><strong>Modo de Luz:</strong> Darkening / Sector Light (Evitar modo Bright)</li>
+                        <li><strong>Renderizado:</strong> Modo Hardware (Avanzado)</li>
+                        <li><strong>Niebla:</strong> Activa (Active Fog)</li>
+                    </ul>
+                </section>
+            </aside>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>The Pink Valley es una obra de arte independiente creada por vamvilodon. Comunidad alojada de manera externa en <a href="https://www.moddb.com/mods/the-pink-valley" target="_blank" rel="noopener">ModDB</a>.</p>
+    </footer>
 
 </body>
 </html>
